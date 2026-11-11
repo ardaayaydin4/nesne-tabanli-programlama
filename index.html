@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Programlama Vize Hazırlık Testi</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .question-card {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .difficulty {
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .easy { background-color: #d1fae5; color: #065f46; }
+        .medium { background-color: #fef3c7; color: #92400e; }
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button.option-btn {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 12px 15px;
+            border-radius: 6px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        button.option-btn:hover:not(:disabled) {
+            background-color: #e2e8f0;
+        }
+        button.option-btn:disabled {
+            cursor: not-allowed;
+        }
+        .correct {
+            background-color: #d4edda !important;
+            border-color: #c3e6cb !important;
+            color: #155724 !important;
+            font-weight: bold;
+        }
+        .correct::after {
+            content: " ✔";
+            color: #155724;
+            float: right;
+            font-size: 1.2rem;
+        }
+        .incorrect {
+            background-color: #f8d7da !important;
+            border-color: #f5c6cb !important;
+            color: #721c24 !important;
+            font-weight: bold;
+        }
+        .incorrect::after {
+            content: " ✖";
+            color: #721c24;
+            float: right;
+            font-size: 1.2rem;
+        }
+        .explanation {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e0f2fe;
+            border-left: 4px solid #0ea5e9;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Python Programlama Arda Ayaydın</h1>
+    <p style="text-align: center; color: #666;"></p>
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const quizData = [{"type": "easy", "question": "Tam say\u0131lar\u0131 ve ondal\u0131kl\u0131 say\u0131lar\u0131 ifade eden veri tipleri s\u0131ras\u0131yla hangileridir?", "code": null, "options": ["String, Integer", "Integer, Float", "Float, Integer", "Boolean, Float"], "correct": 1, "explanation": "Derse g\u00f6re; Integer (int) tam say\u0131lar\u0131, Float ise ondal\u0131kl\u0131 say\u0131lar\u0131 ifade eder."}, {"type": "easy", "question": "Python'da de\u011fi\u015fken isimleri tan\u0131mlan\u0131rken a\u015fa\u011f\u0131dakilerden hangisi yanl\u0131\u015ft\u0131r?", "code": null, "options": ["Alt tire (_) kullan\u0131labilir.", "Say\u0131 ile ba\u015flayamaz.", "Bo\u015fluk kullan\u0131lamaz.", "Say\u0131 ile ba\u015flayabilir."], "correct": 3, "explanation": "De\u011fi\u015fken isimleri say\u0131 ile ba\u015flayamaz ve bo\u015fluk i\u00e7eremez."}, {"type": "easy", "question": "Tek sat\u0131rl\u0131k yorum sat\u0131r\u0131 olu\u015fturmak i\u00e7in hangi sembol kullan\u0131l\u0131r?", "code": null, "options": ["//", "/*", "#", "<!--"], "correct": 2, "explanation": "Kodlar\u0131n yan\u0131na a\u00e7\u0131klama yazmak i\u00e7in '#' i\u015fareti kullan\u0131l\u0131r."}, {"type": "easy", "question": "Python'da metinleri ve karakterleri ifade eden veri tipi nedir?", "code": null, "options": ["String", "Integer", "Float", "Tuple"], "correct": 0, "explanation": "String, Python'da metinleri ve karakterleri ifade eden veri tipidir."}, {"type": "easy", "question": "Bir metnin ka\u00e7 karakterden olu\u015ftu\u011funu bulmak i\u00e7in hangi fonksiyon kullan\u0131l\u0131r?", "code": null, "options": ["count()", "size()", "len()", "type()"], "correct": 2, "explanation": "Bir metnin veya karakter dizisinin uzunlu\u011funu len() fonksiyonu bulur."}, {"type": "easy", "question": "A\u015fa\u011f\u0131daki veri tiplerinden hangilerinin elemanlar\u0131 sonradan do\u011frudan de\u011fi\u015ftirilemez (immutable)?", "code": null, "options": ["Sadece Liste (List)", "Sadece S\u00f6zl\u00fck (Dictionary)", "String ve Demet (Tuple)", "Liste ve Demet (Tuple)"], "correct": 2, "explanation": "String i\u00e7erisindeki karakterler ve Demetlerdeki (Tuple) elemanlar do\u011frudan de\u011fi\u015ftirilemez."}, {"type": "easy", "question": "Verileri anahtar (Key) ve de\u011fer (Value) \u015feklinde saklayan veri tipi hangisidir?", "code": null, "options": ["Tuple", "Dictionary", "List", "String"], "correct": 1, "explanation": "S\u00f6zl\u00fck (Dictionary), verileri anahtar-de\u011fer \u00e7iftleri halinde saklar."}, {"type": "easy", "question": "Kullan\u0131c\u0131n\u0131n klavyeden veri girmesini sa\u011flayan input() fonksiyonu her zaman hangi veri tipini d\u00f6nd\u00fcr\u00fcr?", "code": null, "options": ["int", "float", "str (String)", "bool"], "correct": 2, "explanation": "Kullan\u0131c\u0131 say\u0131 girse bile input() her zaman metin (String) d\u00f6nd\u00fcr\u00fcr."}, {"type": "easy", "question": "B\u00fct\u00fcn kar\u015f\u0131la\u015ft\u0131rmalar\u0131n do\u011fru (True) olmas\u0131n\u0131 isteyen, biri bile yanl\u0131\u015fsa False d\u00f6nd\u00fcren mant\u0131ksal ba\u011fla\u00e7 hangisidir?", "code": null, "options": ["and", "not", "or", "in"], "correct": 0, "explanation": "and operat\u00f6r\u00fc b\u00fct\u00fcn \u015fartlar\u0131n True olmas\u0131n\u0131 zorunlu k\u0131lar."}, {"type": "easy", "question": "Bir de\u011fi\u015fkene hen\u00fcz de\u011fer atanmad\u0131\u011f\u0131n\u0131 belirtmek i\u00e7in hangi de\u011fer kullan\u0131l\u0131r?", "code": null, "options": ["Null", "0", "False", "None"], "correct": 3, "explanation": "None de\u011feri, bir de\u011fi\u015fkene hen\u00fcz de\u011fer atanmad\u0131\u011f\u0131n\u0131 belirtir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "print(17 // 3)", "options": ["5.66", "5", "2", "5.0"], "correct": 1, "explanation": "// operat\u00f6r\u00fc tam b\u00f6lme yapar ve sadece tam say\u0131 k\u0131sm\u0131n\u0131 verir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "a = 4\nb = 3\nc = a + 2 * b\nprint(c)", "options": ["18", "14", "10", "24"], "correct": 2, "explanation": "\u0130\u015flem \u00f6nceli\u011fi nedeniyle \u00f6nce 2*3=6, ard\u0131ndan 4+6=10 hesaplan\u0131r."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "print(64 ** 0.5)", "options": ["32", "8.0", "8", "4096"], "correct": 1, "explanation": "** 0.5 kuvveti say\u0131n\u0131n karek\u00f6k\u00fcn\u00fc al\u0131r ve float (8.0) d\u00f6nd\u00fcr\u00fcr."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "a = \"Python\"\nprint(a[0:3])", "options": ["Pyth", "Pyt", "yth", "Pyo"], "correct": 1, "explanation": "[ba\u015flang\u0131\u00e7:biti\u015f] dilimlemesinde biti\u015f indeksi dahil edilmez. (P, y, t)"}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "a = \"Python\"\nprint(a[::-1])", "options": ["nohtyP", "Python", "P", "Hata verir"], "correct": 0, "explanation": "[::-1] ifadesi, negatif atlama de\u011feriyle stringi tamamen ters \u00e7evirir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun sonucu ne olur?", "code": "a = \"Ahmet\"\na[0] = \"T\"\nprint(a)", "options": ["Thmet", "Ahmet", "Hata verir", "T"], "correct": 2, "explanation": "Stringler de\u011fi\u015ftirilemez (immutable) oldu\u011fu i\u00e7in atama yap\u0131lmas\u0131 hata verir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "print(\"Python \" * 3)", "options": ["Python Python Python ", "PythonPythonPython", "Hata verir", "Python 3"], "correct": 0, "explanation": "Stringi say\u0131yla \u00e7arpmak (*), metni belirtilen defa yan yana \u00e7o\u011falt\u0131r."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "a = 4.7\nb = int(a)\nprint(b)", "options": ["5", "4.7", "Hata verir", "4"], "correct": 3, "explanation": "int() d\u00f6n\u00fc\u015f\u00fcm\u00fc ondal\u0131k k\u0131sm\u0131 tamamen siler, matematiksel yuvarlama yapmaz."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun sonucu ne olur?", "code": "a = \"3.14.5\"\nb = float(a)", "options": ["3.14.5", "3.14", "Hata verir", "3.15"], "correct": 2, "explanation": "Say\u0131 bi\u00e7imi hatal\u0131 olan ('3.14.5') metinler float tipine d\u00f6n\u00fc\u015ft\u00fcr\u00fclemez ve kod hata verir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nas\u0131l g\u00f6r\u00fcn\u00fcr?", "code": "print(\"Ali\\tVeli\")", "options": ["AliVeli", "Ali\\tVeli", "Ali    Veli (Bir tab bo\u015flu\u011fu)", "Ali (Alt sat\u0131rda) Veli"], "correct": 2, "explanation": "\\t \u00f6zel karakteri ekrana bir tab (sekme) bo\u015flu\u011fu b\u0131rak\u0131r."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "print(3, 4, 5, sep=\"-\")", "options": ["3 4 5 -", "3-4-5", "-3-4-5-", "345"], "correct": 1, "explanation": "sep parametresi, print i\u00e7indeki verilerin aras\u0131na belirtilen karakteri koyar."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "print(*\"Python\", sep=\"-\")", "options": ["Python-", "P-y-t-h-o-n", "-P-y-t-h-o-n-", "*Python-"], "correct": 1, "explanation": "Y\u0131ld\u0131z (*) operat\u00f6r\u00fc karakterleri ay\u0131r\u0131r, sep=\"-\" ise aralar\u0131na tire koyar."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "print(\"{1} {0}\".format(\"Ali\", \"Veli\"))", "options": ["Ali Veli", "Veli Ali", "{1} {0}", "Hata verir"], "correct": 1, "explanation": "1. indeks 'Veli', 0. indeks ise 'Ali'dir. S\u00fcsl\u00fc parantez i\u00e7ine belirtilen s\u0131rayla yerle\u015fir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "liste = [10, 20, 30]\nliste[0] = 50\nprint(liste)", "options": ["[10, 20, 30]", "Hata verir", "[50, 20, 30]", "[10, 20, 30, 50]"], "correct": 2, "explanation": "Listeler de\u011fi\u015ftirilebilir. 0. indeksteki '10' de\u011feri '50' ile g\u00fcncellenir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "liste = [1, 2, 3, 4]\nliste.pop(0)\nprint(liste)", "options": ["[1, 2, 3]", "[2, 3, 4]", "[1, 2, 3, 4]", "[]"], "correct": 1, "explanation": "pop(0) komutu listenin 0. indeksindeki eleman\u0131 (1) listeden \u00e7\u0131kar\u0131r/siler."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "a = [1, 2]\nb = [3, 4]\nprint(a + b)", "options": ["[4, 6]", "[1, 2, 3, 4]", "[[1, 2], [3, 4]]", "Hata verir"], "correct": 1, "explanation": "Listelerde + operat\u00f6r\u00fc iki listeyi u\u00e7 uca ekleyerek birle\u015ftirir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "liste1 = [1, 2, 3]\nliste2 = [4, 5, 6]\nyeniliste = [liste1, liste2]\nprint(yeniliste[1][0])", "options": ["1", "2", "4", "5"], "correct": 2, "explanation": "\u0130\u00e7 i\u00e7e listelerde [1] ile liste2 se\u00e7ilir, [0] ile o listenin ilk eleman\u0131 olan 4 se\u00e7ilir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun sonucu ne olur?", "code": "demet = (\"Elma\", \"Armut\", \"Muz\")\ndemet[0] = \"Kiraz\"\nprint(demet)", "options": ["(\"Kiraz\", \"Armut\", \"Muz\")", "(\"Elma\", \"Armut\", \"Muz\")", "Hata verir", "[\"Kiraz\", \"Armut\", \"Muz\"]"], "correct": 2, "explanation": "Demetler (Tuples) immutable (de\u011fi\u015ftirilemez) oldu\u011fu i\u00e7in bu atama i\u015flemi hata verir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "print(not (5 > 2 and 10 < 5))", "options": ["True", "False", "None", "Hata verir"], "correct": 0, "explanation": "Parantez i\u00e7i (True and False) -> False olur. not False ise True sonucunu verir."}, {"type": "medium", "question": "A\u015fa\u011f\u0131daki kodun \u00e7\u0131kt\u0131s\u0131 nedir?", "code": "print(bool(0))", "options": ["True", "False", "0", "None"], "correct": 1, "explanation": "bool() 0 de\u011ferini False, 0 d\u0131\u015f\u0131ndaki say\u0131lar\u0131 True olarak de\u011ferlendirir."}];
+
+    const quizContainer = document.getElementById('quiz-container');
+
+    quizData.forEach((item, index) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question-card';
+        
+        const difficultyClass = item.type === 'easy' ? 'easy' : 'medium';
+        const difficultyText = item.type === 'easy' ? 'KOLAY (Terimler)' : 'ORTA (Çıktı Tahmini)';
+        
+        let htmlContent = `<span class="difficulty ${difficultyClass}">${difficultyText}</span>`;
+        htmlContent += `<div class="question-text">${index + 1}. ${item.question}</div>`;
+        
+        if (item.code) {
+            htmlContent += `<pre><code>${item.code}</code></pre>`;
+        }
+        
+        htmlContent += `<div class="options" id="options-${index}">`;
+        
+        item.options.forEach((option, optIndex) => {
+            htmlContent += `<button class="option-btn" onclick="checkAnswer(${index}, ${optIndex}, ${item.correct})">${String.fromCharCode(65 + optIndex)}) ${option}</button>`;
+        });
+        
+        htmlContent += `</div>`;
+        htmlContent += `<div class="explanation" id="explanation-${index}"><strong>Çözüm ve Açıklama:</strong> ${item.explanation}</div>`;
+        
+        questionDiv.innerHTML = htmlContent;
+        quizContainer.appendChild(questionDiv);
+    });
+
+    function checkAnswer(questionIndex, selectedOptionIndex, correctOptionIndex) {
+        const optionsContainer = document.getElementById(`options-${questionIndex}`);
+        const buttons = optionsContainer.getElementsByTagName('button');
+        const explanation = document.getElementById(`explanation-${questionIndex}`);
+        
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = true;
+            if (i === correctOptionIndex) {
+                buttons[i].classList.add('correct');
+            } else if (i === selectedOptionIndex) {
+                buttons[i].classList.add('incorrect');
+            }
+        }
+        
+        explanation.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
